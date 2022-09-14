@@ -1,3 +1,6 @@
+const ProductDAO = require("../dao/productDao");
+console.log(ProductDAO);
+
 // Abordagem 1 - Classes
 class ProductsController {
   createProduct(req, res) {
