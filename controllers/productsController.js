@@ -35,20 +35,29 @@ class ProductsController {
         res.status(404).json({ message: `product not found`})    
       } else {
           res.status(200).json(result.rows[0]);            
-      }
-   
+      }   
   });
 
 }
 
   updateProduct(req, res) {
-    console.log("PUT", req.params.id, req.body);
-    ProductDAO.updateComplete();
+      ProductDAO.updateComplete(req.params.id, req.body, (err, result) => {
+        if (err) {
+            res.status(500).json({ error: err });            
+        } else {
+            res.status(204).end();            
+        }     
+    });
   }
 
   updateProductPartial(req, res) {
-    console.log("PATCH", req.params.id, req.body);
-    ProductDAO.updatePartial();
+       ProductDAO.updatePartial(req.params.id, req.body, (err, result) => {
+        if (err) {
+            res.status(500).json({ error: err });            
+        } else {
+            res.status(204).end();            
+        }
+       });
   }
 
   removeProduct(req, res) {
