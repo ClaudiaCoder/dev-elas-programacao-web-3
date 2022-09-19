@@ -1,17 +1,39 @@
+const { ulid } = require("ulid");
 class ProductDAO {
+    constructor(dbClient){
+        this.db = dbClient;
+    }
     
-    save() {}
+    save(body, callback) {
+        const { name, price, quantity } = body;
+        const id = ulid();
 
-    findAll() {}
+        const sql = 
+        " INSERT INTO public.products (id, name, price, quantity) VALUES ($1, $2, $3, $4);"
 
-    findOne() {}
+        this.db.query(sql, [ id, name, price, quantity ], callback.bind({},id));// bind registra parâmetros na função, mas sem executar a função, logo, quando o callback for chamado, ele passará o id como parâmetro.
+
+    }
+
+    findAll(callback) {
+        const sql = "SELECT * FROM public.products"
+        this.db.query(sql, callback);
+    }
+
+    findOne(id, callback) {
+        const sql = "SELECT * FROM public.products WHERE id = $1" // no SQL usamos ?, no postgress usamos $ e a posição do parâmetro.
+        this.db.query(sql, [id], callback);
+    }
 
     updateComplete() {}
 
     updatePartial() {}
 
-    removeOne() {}
+    removeOne(id, callback) {
+    const sql = "DELETE FROM public.products WHERE id = $1";
+    this.db.query(sql, [id], callback);
+    }
 
 }
 
-module.exports = new ProductDAO();
+module.exports = (dbClient) =>  new ProductDAO(dbClient);
