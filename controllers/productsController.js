@@ -1,93 +1,71 @@
-const dbClient = require("../infra/dbClient")
-const ProductDAO = require("../dao/productDao")(dbClient);
+const ProductModel = require("../models/productModel");
 
 // Abordagem 1 - Classes
 class ProductsController {
   createProduct(req, res) {
-    ProductDAO.save(req.body, (id, err, result) => {
-      if (err) {
-          res.status(500).json({ error: err });            
-      } else {
-          res.status(201).json({...req.body, id });            
-      }
+  //   // ProductDAO.save(req.body, (id, err, result) => {
+  //   //   if (err) {
+  //   //       res.status(500).json({ error: err });            
+  //   //   } else {
+  //   //       res.status(201).json({...req.body, id });            
+  //   //   }
    
-  });
+  // });
 
   }
 
   getAllProducts(req, res) {
-    ProductDAO.findAll((err, result) => {
-      if (err) {
-          res.status(500).json({ error: err });            
-      } else {
-          res.status(200).json(result.rows);            
-      }
-   
-  });
-
+    
+    ProductModel.findAll()
+     .then(result => res.status(200).json(result))
+     .catch(err => res.status(500).json( { error:err }));
+    
 }
 
   getProductById(req, res) {
-    ProductDAO.findOne(req.params.id, (err, result) => {
-      if (err) {
-          res.status(500).json({ error: err });   
-      } else if (result.rowCount === 0) {
-        res.status(404).json({ message: `product not found`})    
-      } else {
-          res.status(200).json(result.rows[0]);            
-      }   
-  });
+  //   ProductDAO.findOne(req.params.id, (err, result) => {
+  //     if (err) {
+  //         res.status(500).json({ error: err });   
+  //     } else if (result.rowCount === 0) {
+  //       res.status(404).json({ message: `product not found`})    
+  //     } else {
+  //         res.status(200).json(result.rows[0]);            
+  //     }   
+  // });
 
 }
 
   updateProduct(req, res) {
-      ProductDAO.updateComplete(req.params.id, req.body, (err, result) => {
-        if (err) {
-            res.status(500).json({ error: err });            
-        } else {
-            res.status(204).end();            
-        }     
-    });
+    //   ProductDAO.updateComplete(req.params.id, req.body, (err, result) => {
+    //     if (err) {
+    //         res.status(500).json({ error: err });            
+    //     } else {
+    //         res.status(204).end();            
+    //     }     
+    // });
   }
 
   updateProductPartial(req, res) {
-       ProductDAO.updatePartial(req.params.id, req.body, (err, result) => {
-        if (err) {
-            res.status(500).json({ error: err });            
-        } else {
-            res.status(204).end();            
-        }
-       });
+      //  ProductDAO.updatePartial(req.params.id, req.body, (err, result) => {
+      //   if (err) {
+      //       res.status(500).json({ error: err });            
+      //   } else {
+      //       res.status(204).end();            
+      //   }
+      //  });
   }
 
   removeProduct(req, res) {
-    ProductDAO.removeOne(req.params.id, (err, result) => {
-      if (err) {
-          res.status(500).json({ error: err });            
-      } else {
-          res.status(204).end();            
-      }
+  //   ProductDAO.removeOne(req.params.id, (err, result) => {
+  //     if (err) {
+  //         res.status(500).json({ error: err });            
+  //     } else {
+  //         res.status(204).end();            
+  //     }
    
-  });
+  // });
   }
 }
 
 module.exports = new ProductsController();
 
-/* 
-// Abordagem 2 - Exportei Funções (Métodos)
-exports.createProduct = (req, res) => console.log("POST", req.body);
-exports.getAllProducts = (req, res) =>
-  console.log("GET 1", req.query, req.baseUrl, req.url);
-exports.getProductById = (req, res) => console.log("GET 2", req.params.id);
-*/
-
-/* 
-// Abordagem 3 - Exportei Objeto Literal com os Métodos
-module.exports = {
-  createProduct: (req, res) => console.log("POST", req.body),
-  getAllProducts: (req, res) =>
-    console.log("GET 1", req.query, req.baseUrl, req.url),
-  getProductById: (req, res) => console.log("GET 2", req.params.id),
-};
-*/

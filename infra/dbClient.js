@@ -1,14 +1,14 @@
-const env = require("dotenv").config().parsed;
+const {HOST_DB, PORT_DB, USER_DB, PASS_DB, DATABASE} = require("dotenv").config().parsed;
 
 const { Client } = require("pg");
 
 const client = new Client({
 
-    host: env.HOST_DB,
-    port: env.PORT_DB,
-    user: env.USER_DB,
-    password: env.PASS_DB,
-    database: env.DATABASE
+    host: HOST_DB,
+    port: PORT_DB,
+    user: USER_DB,
+    password: PASS_DB,
+    database: DATABASE
 });
 
 
