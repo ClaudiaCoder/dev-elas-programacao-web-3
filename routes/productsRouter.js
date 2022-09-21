@@ -14,9 +14,6 @@ router.get("/:id", ProductsController.getProductById);
 // Update - Atualizando um produto (total)
 router.put("/:id", ProductsController.updateProduct);
 
-// Update - Atualizando um produto (parcial)
-router.patch("/:id", ProductsController.updateProductPartial);
-
 // Delete - Excluindo um produto
 router.delete("/:id", ProductsController.removeProduct);
 

@@ -1,4 +1,4 @@
-const { Sequelize, DatabaseError } = require("sequelize");   
+const { Sequelize, DatabaseError, Op } = require("sequelize");   
 const { HOST_DB, PORT_DB, USER_DB, PASS_DB, DATABASE, DIALECT} = require("dotenv").config().parsed;
 
 
